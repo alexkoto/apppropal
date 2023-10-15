@@ -27,13 +27,21 @@ class ModelClients {
     required this.telp,
   });
 
+  // factory ModelClients.fromJson(Map<String, dynamic> json) => ModelClients(
+  //       idclient: json["idclient"],
+  //       nama: json["nama"],
+  //       alamat: json["alamat"],
+  //       pic: json["pic"],
+  //       email: json["email"],
+  //       telp: json["telp"],
+  //     );
   factory ModelClients.fromJson(Map<String, dynamic> json) => ModelClients(
-        idclient: json["idclient"],
-        nama: json["nama"],
-        alamat: json["alamat"],
-        pic: json["pic"],
-        email: json["email"],
-        telp: json["telp"],
+        idclient: json["idclient"] ?? "",
+        nama: json["nama"] ?? "",
+        alamat: json["alamat"] ?? "",
+        pic: json["pic"] ?? "",
+        email: json["email"] ?? "",
+        telp: json["telp"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

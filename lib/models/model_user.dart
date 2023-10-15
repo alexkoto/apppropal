@@ -28,12 +28,12 @@ class ModelUsers {
   });
 
   factory ModelUsers.fromJson(Map<String, dynamic> json) => ModelUsers(
-        iduser: json["iduser"],
-        username: json["username"],
-        namalengkap: json["namalengkap"],
-        password: json["password"],
-        idaktifasi: json["idaktifasi"],
-        idlevel: json["idlevel"],
+        iduser: json["iduser"] ?? "",
+        username: json["username"] ?? "",
+        namalengkap: json["namalengkap"] ?? "",
+        password: json["password"] ?? "",
+        idaktifasi: json["idaktifasi"] ?? "",
+        idlevel: json["idlevel"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

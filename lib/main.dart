@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-import 'package:app_manpropal/pages/home_page.dart';
-import 'package:app_manpropal/pages/signin_page.dart';
+import 'package:app_manpropal/pages/mainscreen/home_page.dart';
+import 'package:app_manpropal/pages/authscreen/signin_page.dart';
 
 import 'services/api_services.dart';
 
@@ -12,15 +12,16 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   final apiService = ApiService(baseUrl: 'https://prisan.co.id/app_propal');
+  // final apiService = ApiService(baseUrl: 'http://192.168.100.153/app_propal');
 
   // Periksa apakah ada data login yang tersimpan
   final iduser = prefs.getString('iduser');
-  debugPrint("userlogid : $iduser");
   final spnamalengkap = prefs.getString('namalengkap');
   final username = prefs.getString('username');
   final password = prefs.getString('password');
   final idaktifasi = prefs.getString('idaktifasi');
   final idlevel = prefs.getString('idlevel');
+  debugPrint("Mainpageloguserid : $iduser");
 
   runApp(MyApp(
     apiService: apiService,
@@ -83,23 +84,11 @@ class MyApp extends StatelessWidget {
               iduser: iduser.toString(),
               username: username.toString(),
               idlevel: idlevel.toString(),
-              namalengkap: "${namalengkap}saaa", onLogout: () {},
+              namalengkap: "$namalengkap",
+              onLogout: () {},
               // onLogout: onLogout,
             )
           : SignInPage(apiService: apiService),
-      // Tentukan rute awal di dalam MaterialApp
-      // initialRoute: iduser != null ? '/home' : '/signin',
-      // routes: {
-      //   '/signin': (context) => SignInPage(apiService: apiService),
-      //   '/home': (context) => HomePage(
-      //         apiService: apiService,
-      //         iduser: iduser ?? '',
-      //         username: username ?? '',
-      //         namalengkap: namalengkap ?? '',
-      //         idlevel: idlevel ?? '',
-      //         onLogout: () {},
-      //       ),
-      // },
       builder: EasyLoading.init(),
     );
   }

@@ -1,16 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: use_build_context_synchronously
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:app_manpropal/components/temp_microtask_snak.dart';
-import 'package:app_manpropal/pages/signup_page.dart';
+import 'package:app_manpropal/pages/authscreen/signup_page.dart';
 import 'package:app_manpropal/services/api_services.dart';
 
-import '../components/temp_button.dart';
-import '../components/temp_textformfield.dart';
-import '../models/model_signin.dart';
-import 'home_page.dart';
+import '../../components/temp_button.dart';
+import '../../components/temp_textformfield.dart';
+import '../../models/model_signin.dart';
+import '../mainscreen/home_page.dart';
 
 class SignInPage extends StatefulWidget {
   final ApiService apiService;
@@ -91,7 +92,9 @@ class _SignInPageState extends State<SignInPage> {
         prefs.setString('idaktifasi', signInData.idaktifasi);
         prefs.setString('idlevel', signInData.idlevel);
         prefs.setBool("isLoggedIn", true);
-        debugPrint("logsetString : $signInData.iduser");
+        // if (kDebugMode) {
+        //   print("iduser : $signInData.iduser");
+        // }
 
         String message = 'Selamat datang Admin';
         Color color = Colors.blue;
@@ -104,7 +107,8 @@ class _SignInPageState extends State<SignInPage> {
               iduser: signInData.iduser,
               namalengkap: signInData.namalengkap,
               username: signInData.username,
-              idlevel: signInData.idlevel, onLogout: logOut,
+              idlevel: signInData.idlevel,
+              onLogout: logOut,
               // onLogout: logOut,
               // password: signInData.password,
               // idaktifasi: signInData.idaktifasi,
@@ -112,7 +116,21 @@ class _SignInPageState extends State<SignInPage> {
           ));
         });
       } else if (signInData.idlevel == "2") {
-        debugPrint("log :");
+        // if (kDebugMode) {
+        //   print(signInData.iduser);
+        // }
+        // if (kDebugMode) {
+        //   print(signInData.namalengkap);
+        // }
+        // if (kDebugMode) {
+        //   print(signInData.username);
+        // }
+        // if (kDebugMode) {
+        //   print(signInData.idaktifasi);
+        // }
+        // if (kDebugMode) {
+        //   print(signInData.idlevel);
+        // }
         String message = 'Selamat datang User';
         Color color = Colors.blue;
 
@@ -133,13 +151,16 @@ class _SignInPageState extends State<SignInPage> {
               iduser: signInData.iduser,
               username: signInData.username,
               idlevel: signInData.idlevel,
-              namalengkap: signInData.namalengkap, onLogout: logOut,
+              namalengkap: signInData.namalengkap,
+              onLogout: logOut,
               // onLogout: logOut,
             ),
           ));
         });
       } else {
-        debugPrint("log :");
+        // if (kDebugMode) {
+        //   print("log :");
+        // }
         String message = 'Akun Anda Belum Terdaftar!';
         Color color = Colors.blue;
 
@@ -254,8 +275,10 @@ class _SignInPageState extends State<SignInPage> {
                   label: 'Sign In',
                   onTap: () async {
                     await _signIn(context);
-                    debugPrint("userlog : ${ctrlUsername.text}");
-                    debugPrint("passlog : ${ctrlPassword.text}");
+                    // if (kDebugMode) {
+                    //   print(
+                    //       "userlog : ${ctrlUsername.text} passlog : ${ctrlPassword.text}");
+                    // }
                   },
                 ),
 
@@ -283,6 +306,10 @@ class _SignInPageState extends State<SignInPage> {
                                 SignupPage(apiService: widget.apiService),
                           ),
                         );
+
+                        // if (kDebugMode) {
+                        // print(ctrlUsername.text + ctrlPassword.text);
+                        // }
                       },
                       child: const Text('Sign Up'),
                     )

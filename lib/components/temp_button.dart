@@ -1,3 +1,4 @@
+import 'package:app_manpropal/constants.dart';
 import 'package:flutter/material.dart';
 
 class TempButton extends StatelessWidget {
@@ -11,17 +12,17 @@ class TempButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(15),
-        margin: const EdgeInsets.symmetric(horizontal: 25),
+        padding: EdgeInsets.all(15),
+        margin: EdgeInsets.symmetric(horizontal: 25),
         decoration: BoxDecoration(
-          color: Colors.black,
+          color: flexSchemeLight.primary,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Center(
             child: Text(
           label,
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
+            color: flexSchemeLight.onPrimary,
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),

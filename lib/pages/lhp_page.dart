@@ -444,7 +444,7 @@ class _LaporanHarianPageState extends State<LaporanHarianPage> {
                             builder: (context) {
                               return AlertDialog(
                                 title: const Text('Terpasang Hari ini'),
-                                content: Container(
+                                content: SizedBox(
                                   width: double.maxFinite,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,

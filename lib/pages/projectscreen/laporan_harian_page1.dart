@@ -2,7 +2,6 @@
 
 import 'package:app_manpropal/services/config_upload.dart';
 import 'package:dio/dio.dart';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -12,7 +11,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'dart:async';
-// import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:multiple_images_picker/multiple_images_picker.dart';
 
 final dio = Dio();
@@ -55,7 +53,9 @@ class _LaporanHarianPageState extends State<LaporanHarianPage> {
     super.initState();
     _getDetail(widget.itemData['idpro']);
     EasyLoading.addStatusCallback((status) {
-      print('EasyLoading Status $status');
+      if (kDebugMode) {
+        print('EasyLoading Status $status');
+      }
       if (status == EasyLoadingStatus.dismiss) {
         _timer?.cancel();
       }
@@ -235,42 +235,40 @@ class _LaporanHarianPageState extends State<LaporanHarianPage> {
   }
 
   _saveImage(String idpro) async {
-    if (images != null) {
-      int count = 0;
+    int count = 0;
 
-      for (var i = 0; i < images.length; i++) {
-        ByteData byteData = await images[i].getByteData();
-        List<int> imageData = byteData.buffer.asUint8List();
+    for (var i = 0; i < images.length; i++) {
+      ByteData byteData = await images[i].getByteData();
+      List<int> imageData = byteData.buffer.asUint8List();
 
-        MultipartFile multipartFile = MultipartFile.fromBytes(
-          imageData,
-          filename: images[i].name,
-          contentType: MediaType('image', 'jpg'),
-        );
+      MultipartFile multipartFile = MultipartFile.fromBytes(
+        imageData,
+        filename: images[i].name,
+        contentType: MediaType('image', 'jpg'),
+      );
 
-        FormData formData = FormData.fromMap({
-          "image": multipartFile,
-          "idpro": idpro,
-        });
-        EasyLoading.show(status: 'upload........');
-        // EasyLoading.showProgress(0.3, status: 'downloading...');
+      FormData formData = FormData.fromMap({
+        "image": multipartFile,
+        "idpro": idpro,
+      });
+      EasyLoading.show(status: 'upload........');
+      // EasyLoading.showProgress(0.3, status: 'downloading...');
 
-        var response = await dio.post(UPLOAD_URL, data: formData);
-        if (response.statusCode == 200) {
-          count++;
-          EasyLoading.dismiss();
-          EasyLoading.showSuccess('Success! $count');
-          final responseData = response.data.toString();
-          final responseJson = json.decode(responseData);
-          if (kDebugMode) {
-            print(response.data);
-            setState(() {
-              _uploadStatus = responseJson['message'];
-            });
-          }
-        } else {
-          EasyLoading.showError('Failed with Error');
+      var response = await dio.post(UPLOAD_URL, data: formData);
+      if (response.statusCode == 200) {
+        count++;
+        EasyLoading.dismiss();
+        EasyLoading.showSuccess('Success! $count');
+        final responseData = response.data.toString();
+        final responseJson = json.decode(responseData);
+        if (kDebugMode) {
+          print(response.data);
+          setState(() {
+            _uploadStatus = responseJson['message'];
+          });
         }
+      } else {
+        EasyLoading.showError('Failed with Error');
       }
     }
   }
@@ -295,7 +293,7 @@ class _LaporanHarianPageState extends State<LaporanHarianPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Laporan Harian Pekerjaan'),
+        title: const Text('Nomor :'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -499,7 +497,7 @@ class _LaporanHarianPageState extends State<LaporanHarianPage> {
                             builder: (context) {
                               return AlertDialog(
                                 title: const Text('Terpasang Hari ini'),
-                                content: Container(
+                                content: SizedBox(
                                   width: double.maxFinite,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -630,8 +628,8 @@ class _LaporanHarianPageState extends State<LaporanHarianPage> {
 //**Ambil gambar */
               Center(child: Text('Error: $_error')),
               ElevatedButton(
-                child: Text("Ambil Gambar Realisasi "),
                 onPressed: loadAssets,
+                child: const Text("Ambil Gambar Realisasi "),
               ),
               SizedBox(
                 height: 100,

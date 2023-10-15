@@ -1,134 +1,264 @@
-import 'dart:convert';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+// // ignore_for_file: public_member_api_docs, sort_constructors_first
+// // import 'package:app_manpropal/pages/laporan_harian_page.dart';
+// // import 'package:app_manpropal/pages/lhp_page.dart';
+// import 'package:app_manpropal/pages/admin_drawer.dart';
+// import 'package:app_manpropal/pages/clientscreen/client_page.dart';
+// import 'package:app_manpropal/pages/laporanscreen/cetak_laporan_page.dart';
+// import 'package:app_manpropal/pages/projectscreen/project_page.dart';
+// import 'package:app_manpropal/pages/user_drawer.dart';
+// import 'package:app_manpropal/pages/userscreen/user_page.dart';
+// import 'package:flutter/material.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeAdmin extends StatefulWidget {
-  final String username;
-  final String iduser;
-  final String idlevel;
-  final String namalengkap;
+// import 'package:app_manpropal/pages/authscreen/signin_page.dart';
+// import 'package:app_manpropal/pages/take_image.dart';
+// import 'package:app_manpropal/pages/tambah_project.dart';
 
-  const HomeAdmin({
-    Key? key,
-    required this.username,
-    required this.iduser,
-    required this.idlevel,
-    required this.namalengkap,
-  }) : super(key: key);
+// import '../services/api_services.dart';
 
-  @override
-  State<HomeAdmin> createState() => _HomeAdminState();
-}
+// class HomeAdmin extends StatefulWidget {
+//   final ApiService apiService;
+//   final String username;
+//   final String iduser;
+//   final String idlevel;
+//   final String namalengkap;
+//   final VoidCallback onLogout;
 
-Color _mainDarkColor = const Color(0xff002638);
+//   const HomeAdmin({
+//     Key? key,
+//     required this.apiService,
+//     required this.username,
+//     required this.iduser,
+//     required this.idlevel,
+//     required this.namalengkap,
+//     required this.onLogout,
+//   }) : super(key: key);
 
-class _HomeAdminState extends State<HomeAdmin> {
-  //list data
-  List _listdata = [];
-  // buat loodingnya
-  bool _isloading = true;
+//   @override
+//   State<HomeAdmin> createState() => _HomeAdminState();
+// }
 
-  Future<void> _getPekerjaan() async {
-    try {
-      final url = Uri.parse("https://prisan.co.id/app_propal/pro.php");
-      final response = await http.post(url, body: {
-        "iduser": widget.iduser,
-        "idlevel": widget.idlevel,
-      });
+// Color _mainDarkColor = const Color(0xff002638);
 
-      if (response.statusCode == 200) {
-        // if (kDebugMode) {
-        //   print(response.body);
-        // }
-        final data = jsonDecode(response.body);
-        setState(() {
-          _listdata = data;
-          _isloading = false;
-          // startloading;
-        });
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
-  }
+// class _HomeAdminState extends State<HomeAdmin> {
+// //list data
+//   List _listdata = [];
+//   bool isRefreshing = false;
+//   Map<String, dynamic> levelData = {};
 
-  @override
-  void initState() {
-    _getPekerjaan();
-    //untuk cek log
-    if (kDebugMode) {
-      print(_listdata);
-    }
-    super.initState();
-  }
+//   Future<void> _getPekerjaan() async {
+//     await Future.delayed(const Duration(seconds: 2));
+//     try {
+//       final data =
+//           await widget.apiService.getPekerjaan(widget.iduser, widget.idlevel);
+//       setState(() {
+//         _listdata = data;
+//         isRefreshing = false;
+//       });
+//     } catch (e) {
+//       // Handle errors here
+//     }
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Icon(
-          Icons.engineering_rounded,
-          color: _mainDarkColor,
-          size: 50,
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                Text(
-                  "Home Admin",
-                  style: TextStyle(
-                      color: _mainDarkColor,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  widget.namalengkap,
-                  style: TextStyle(color: _mainDarkColor, fontSize: 12),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      body: _isloading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : ListView.builder(
-              itemCount: _listdata.length,
-              itemBuilder: ((context, index) {
-                return Card(
-                  child: ListTile(
-                    title: Text(_listdata[index]['Project_Name']),
-                    subtitle: Text(_listdata[index]['no_kontrak']),
-                  ),
-                );
-              })),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+//   @override
+//   void initState() {
+//     _getPekerjaan();
+//     //untuk cek log
 
-        onPressed: () {
-          // Navigator.of(context).push(
-          //   MaterialPageRoute(
-          //     builder: (context) =>
-          //         const ProjectTambah(), // Ganti HalamanTujuan dengan nama halaman yang sesuai.
-          //   ),
-          // );
-        },
-        tooltip: 'Tambahkan Item',
-        // child: const Icon(Icons.add),
-        child: Image.asset('assets/images/newproject.png'),
-      ),
-    );
-  }
-}
+//     super.initState();
+//   }
+
+// //************LOGOUT */
+//   // Pindahkan fungsi logOut ke dalam HomeAdmin
+//   void logOut(context) async {
+//     final prefs = await SharedPreferences.getInstance();
+//     prefs.remove('iduser');
+//     prefs.remove('namalengkap');
+//     prefs.remove('username');
+//     prefs.remove('password');
+//     prefs.remove('idaktifasi');
+//     prefs.remove('idlevel');
+
+//     // Pindah ke SignInPage dan hapus HomeAdmin dari tumpukan navigasi
+//     Navigator.pushReplacement(
+//       context,
+//       MaterialPageRoute(
+//         builder: (context) => SignInPage(apiService: widget.apiService),
+//       ),
+//     );
+//   }
+
+// //************LOGOUT */
+
+//   Future<void> _getLevelById(String idlevel) async {
+//     try {
+//       final String? level =
+//           await widget.apiService.getLevelById(widget.idlevel);
+//       if (level != null) {
+//         setState(() {
+//           levelData = {'level': level};
+//         });
+//       } else {
+//         debugPrint('Level is null');
+//       }
+//     } catch (e) {
+//       debugPrint('Failed to get level: $e');
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     bool isAdmin = (widget.idlevel == '1');
+
+//     return Scaffold(
+//       drawer:
+//           isAdmin // Gunakan properti isAdmin untuk memilih drawer yang sesuai
+//               ? AdminDrawer(
+//                   apiService: widget.apiService,
+//                   iduser: widget.iduser,
+//                   username: widget.username,
+//                   idlevel: widget.idlevel,
+//                   namalengkap: widget.namalengkap,
+//                   getLevelById: _getLevelById,
+//                   //*Halaman Dashboard******/
+//                   onDashboardTap: () {
+//                     // Handle action when Dashboard is tapped
+//                   },
+//                   //*********Halaman Project*/
+//                   onProjectManagementTap: () {
+//                     // Handle action when Users is tapped
+//                     Navigator.of(context).push(
+//                       MaterialPageRoute(
+//                         builder: (context) => ProjectPage(
+//                           apiService: widget.apiService,
+//                           iduser: widget.iduser,
+//                           idlevel: widget.idlevel,
+//                         ),
+//                         // Ganti HalamanTujuan dengan nama halaman yang sesuai.
+//                       ),
+//                     );
+//                   },
+//                   //*********Halaman User*/
+//                   onUserManagementTap: () {
+//                     // Handle action when Users is tapped
+//                     Navigator.of(context).push(
+//                       MaterialPageRoute(
+//                         builder: (context) => UserPage(
+//                           apiService: widget.apiService,
+//                         ),
+//                         // Ganti HalamanTujuan dengan nama halaman yang sesuai.
+//                       ),
+//                     );
+//                   },
+//                   //*********Halaman Client*/
+//                   onClientManagementTap: () {
+//                     // Handle action when Users is tapped
+//                     Navigator.of(context).push(
+//                       MaterialPageRoute(
+//                         builder: (context) =>
+//                             ClientPage(apiService: widget.apiService),
+//                         // Ganti HalamanTujuan dengan nama halaman yang sesuai.
+//                       ),
+//                     );
+//                   },
+//                   //*********Halaman Client*/
+//                   onLaporanManagementTap: () {
+//                     // Handle action when Users is tapped
+//                     Navigator.of(context).push(
+//                       MaterialPageRoute(
+//                         builder: (context) => const CetakLaporanPage(),
+//                         // Ganti HalamanTujuan dengan nama halaman yang sesuai.
+//                       ),
+//                     );
+//                   },
+//                   //*********Logout*/
+//                   onLogout: () {
+//                     logOut(context);
+//                   },
+//                 )
+//               : UserDrawer(
+//                   apiService: widget.apiService,
+//                   getLevelById: _getLevelById,
+//                   iduser: widget.iduser,
+//                   username: widget.username,
+//                   idlevel: widget.idlevel,
+//                   namalengkap: widget.namalengkap,
+//                   onDashboardTap: () {
+//                     // Handle action when Dashboard is tapped
+//                   },
+//                   onLogout: () {
+//                     logOut(context);
+//                   },
+//                 ),
+
+// //************DrawerScreen */
+//       appBar: AppBar(
+//         backgroundColor: Colors.transparent,
+//         // elevation: 0,
+//         // centerTitle: true,
+//         title: const Text("Home Page"),
+//         leading: Icon(
+//           Icons.engineering_rounded,
+//           color: _mainDarkColor,
+//           size: 50,
+//         ),
+//         actions: [
+//           IconButton(
+//             onPressed: () {
+//               // Tambahkan logic logout di sini
+//               logOut(context);
+//             },
+//             icon: const Icon(Icons.logout),
+//           ),
+//         ],
+//       ),
+//       body: RefreshIndicator(
+//         strokeWidth: CircularProgressIndicator.strokeAlignCenter,
+//         onRefresh: () {
+//           setState(() {
+//             isRefreshing = true;
+//           });
+//           return _getPekerjaan();
+//         },
+//         child: ListView.builder(
+//             itemCount: _listdata.length,
+//             itemBuilder: ((context, index) {
+//               return Card(
+//                 child: ListTile(
+//                   title: Text(_listdata[index]['nmpro']),
+//                   subtitle: Text(_listdata[index]['nopro']),
+//                   onTap: () {
+//                     // Navigasi ke halaman detail dengan membawa data item
+//                     Navigator.of(context).push(
+//                       MaterialPageRoute(
+//                         builder: (context) =>
+//                             LaporanHarianPage(itemData: _listdata[index]),
+//                       ),
+//                     );
+//                   },
+//                 ),
+//               );
+//             })),
+//       ),
+
+//       floatingActionButton: FloatingActionButton(
+//           backgroundColor: Colors.transparent,
+//           elevation: 0,
+//           onPressed: () {
+//             Navigator.of(context).push(
+//               MaterialPageRoute(
+//                 builder: (context) =>
+//                     TambahProjectPage(apiService: widget.apiService),
+//                 // Ganti HalamanTujuan dengan nama halaman yang sesuai.
+//               ),
+//             );
+//           },
+//           tooltip: 'Tambahkan Item',
+//           child: const Icon(
+//             Icons.construction,
+//             size: 50.0,
+//             color: Colors.black,
+//           )),
+//     );
+//   }
+// }

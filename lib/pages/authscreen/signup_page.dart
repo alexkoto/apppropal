@@ -1,10 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:app_manpropal/pages/signin_page.dart';
+import 'package:app_manpropal/pages/authscreen/signin_page.dart';
 import 'package:flutter/material.dart';
 
-import '../components/temp_textformfield.dart';
-import '../components/temp_toast.dart';
-import '../services/api_services.dart';
+import '../../components/temp_textformfield.dart';
+import '../../components/temp_toast.dart';
+import '../../services/api_services.dart';
 
 class SignupPage extends StatefulWidget {
   final ApiService apiService;
